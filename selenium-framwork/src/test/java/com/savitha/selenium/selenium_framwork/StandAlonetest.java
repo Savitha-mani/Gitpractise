@@ -4,12 +4,13 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
@@ -17,8 +18,9 @@ public class StandAlonetest {
 
 	public static void main(String[] args) throws InterruptedException {
 		// TODO Auto-generated method stub
-		List<String> myproducts=Arrays.asList("ZARA COAT 3", "ADIDAS ORIGINAL");
-		List<String> mycartproducts=new ArrayList<String>(); 
+		List<String> myproducts=Arrays.asList("ZARA COAT 3", "IPHONE 13 PRO");
+		List<String> mycartproducts=new ArrayList<String>();
+		String mycountry="India";
 		WebDriver driver=new ChromeDriver();
 		WebDriverWait wait=new WebDriverWait(driver, Duration.ofSeconds(5));
 		driver.manage().window().maximize();
@@ -64,8 +66,35 @@ public class StandAlonetest {
             myproducts.containsAll(mycartproducts));
 
 	WebElement checkout=driver.findElement(By.xpath("//button[contains(text(),'Checkout')]"));
-	checkout.click();
+	Actions action=new Actions(driver);
+	action.moveToElement(checkout).click().perform();
+	WebElement creditcardinfo=driver.findElement(By.xpath("//div[contains(text(),'Credit Card Number ')]//following-sibling::input"));
+	creditcardinfo.clear();
+	creditcardinfo.sendKeys("123456789");
+	WebElement month=driver.findElement(By.xpath("//select[@class='input ddl'][1]"));
+	Select select =new Select(month);
+	select.selectByVisibleText("07");
+	WebElement date=driver.findElement(By.xpath("//select[@class='input ddl'][2]"));
+	Select select1 =new Select(date);
+	select1.selectByVisibleText("15");
+	WebElement cvv=driver.findElement(By.xpath("//div[contains(text(),'CVV Code')]//following-sibling::input"));
+	cvv.sendKeys("321");
+	WebElement selectcountry= driver.findElement(By.cssSelector("input[placeholder$='Select Country']"));
+	selectcountry.sendKeys("ind");
+	List<WebElement> countries=driver.findElements(By.xpath("//section[@class='ta-results list-group ng-star-inserted']/button"));
+	for(WebElement country : countries) {
+		WebElement countryelement=country.findElement(By.xpath(".//span"));
+		String countryname=countryelement.getText();
+		if(countryname.equals(mycountry)) {
+			countryelement.click();
+			break;
+		}
 	}
+	WebElement placeorder=driver.findElement(By.xpath("//a[contains(.,'Place Order')]"));
+	placeorder.click();
+	WebElement orderconfirmation=driver.findElement(By.tagName("h1"));
+	String confirmationmessage=orderconfirmation.getText();
+	Assert.assertEquals(confirmationmessage.toLowerCase(), ("Thankyou for the order.").toLowerCase(), "Order confirmed with correct message");
 	
-
+	}
 }
