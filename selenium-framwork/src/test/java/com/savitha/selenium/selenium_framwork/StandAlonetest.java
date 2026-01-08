@@ -97,4 +97,6 @@ public class StandAlonetest {
 	Assert.assertEquals(confirmationmessage.toLowerCase(), ("Thankyou for the order.").toLowerCase(), "Order confirmed with correct message");
 	
 	}
+	
+
 }
