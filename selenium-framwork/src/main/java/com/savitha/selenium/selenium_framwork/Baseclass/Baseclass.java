@@ -11,6 +11,8 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.savitha.selenium.selenium_framwork.pageobjects.Cartpage;
+
 public class Baseclass {
 	WebDriver driver;
 	WebDriverWait wait;
@@ -29,6 +31,9 @@ public class Baseclass {
 	public WebElement visiblityofElement(By Locator) {
 		return wait.until(ExpectedConditions.visibilityOfElementLocated(Locator));
 	}
+	public void visiblityofElement(WebElement element) {
+		wait.until(ExpectedConditions.visibilityOf(element));
+	}
 	
 	public void elementToBeClickable(By Locator) {
 		wait.until(ExpectedConditions.elementToBeClickable(Locator));
@@ -39,9 +44,11 @@ public class Baseclass {
 		action.moveToElement(element).click().perform();
 	}
 	
-	public void Gotocart() {
+	public Cartpage Gotocart() {
 		elementToBeClickable(carticpon);
 		cartbtn.click();
+		Cartpage cartpage=new Cartpage(driver);
+		return cartpage;
 		
 	}
 

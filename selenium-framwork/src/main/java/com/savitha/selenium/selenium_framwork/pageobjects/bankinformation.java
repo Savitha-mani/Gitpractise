@@ -6,12 +6,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 
 public class bankinformation {
 	WebDriver driver;
 	public bankinformation(WebDriver driver) {
 		this.driver=driver;
+		PageFactory.initElements(driver, this);
 	}
 	@FindBy(xpath="//div[contains(text(),'Credit Card Number ')]//following-sibling::input")
 	WebElement creditcardinfo;
@@ -48,8 +50,10 @@ public class bankinformation {
 	}
 	}
 	
-	public void placingorder() {
+	public confirmationpage placingorder() {
 	placeorder.click();
+	confirmationpage confirmationpage=new confirmationpage(driver);
+	return confirmationpage;
 	}
 	
 }

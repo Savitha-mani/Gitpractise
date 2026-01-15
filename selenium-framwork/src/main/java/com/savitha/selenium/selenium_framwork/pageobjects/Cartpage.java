@@ -1,11 +1,9 @@
 package com.savitha.selenium.selenium_framwork.pageobjects;
 
 import java.util.List;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
@@ -35,8 +33,10 @@ public class Cartpage extends Baseclass {
 	
 	}
 	
-	public void checkouticon() {
+	public bankinformation checkouticon() {
 		moveToElement(checkout);
+		bankinformation bankinformation=new bankinformation(driver);
+		return bankinformation;
 	}
 	
 }

@@ -20,6 +20,9 @@ public class LoginScreen extends Baseclass
 		
 	}
 	
+	@FindBy(xpath="//div[@aria-label='Incorrect email or password.']")
+	WebElement incorrectlogin;
+	
 	@FindBy(id="userEmail")
 	WebElement email;
 	
@@ -32,10 +35,12 @@ public class LoginScreen extends Baseclass
 	By loginMessageLocator =By.xpath("//div[@aria-label='Login Successfully']");
 	
 	
-	public void Login() {
-		email.sendKeys("Savi321@gmail.com");
-		password.sendKeys("Savitha!23");
+	public ProductPage Login(String emailid,String passcode) {
+		email.sendKeys(emailid);
+		password.sendKeys(passcode);
 		Login.click();
+		ProductPage productpage=new ProductPage(driver);
+		return productpage;
 		
 		
 	}
@@ -44,6 +49,14 @@ public class LoginScreen extends Baseclass
 		WebElement Loginmessage=visiblityofElement(loginMessageLocator);
 		String Logintext=Loginmessage.getText();
 		return Logintext;
+	}
+	
+	public String InvalidLogin() {
+		visiblityofElement(incorrectlogin);
+		String Logintext=incorrectlogin.getText();
+		return Logintext;
+		
+		
 	}
 
 }
